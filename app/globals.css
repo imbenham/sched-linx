@@ -1,0 +1,10 @@
+/* Tailwind v4 single-entry import. Includes Preflight (the base reset),
+ * the utility classes, and the theme layer. Customize via @theme {} blocks
+ * below when we have design tokens; leave bare for now. */
+@import "tailwindcss";
+
+/* The typography plugin — adds the `prose` class family that handles
+ * sensible defaults for long-form prose (article spacing, heading sizes,
+ * link styling, lists, blockquotes, etc.). v4 loads plugins via @plugin
+ * here in CSS rather than the legacy tailwind.config.js plugins array. */
+@plugin "@tailwindcss/typography" {}

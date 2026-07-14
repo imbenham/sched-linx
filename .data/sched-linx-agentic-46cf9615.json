@@ -1,0 +1,2209 @@
+{
+  "exportedAt": "2026-07-14T00:59:44.552Z",
+  "agenticSetups": [
+    {
+      "id": "46cf9615-7ce6-420c-b342-cefb59856e9a",
+      "tag": "agentic-46cf9615",
+      "title": "Physical Therapy plus other stuff",
+      "useCaseSummary": null,
+      "status": "committed",
+      "dialog": [
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "Hi! I'll help you describe your practice so we can spin up a sched-linx scenario that matches how you actually run.\n\nLet's start with a couple of orientation questions:\n\n1. What kind of practice is it? (e.g. specialty consult clinic, urgent care, primary care, physical therapy, group therapy)\n2. Roughly how big? (Number of providers, or number of patients you typically see in a day.)\n\nOnce I have that, we'll get into the specifics — the services you offer, whether you have rooms or equipment that constrain scheduling, and the pattern of how appointments are booked (scheduled per-provider, walk-in against capacity, or a mix).",
+              "type": "text"
+            }
+          ],
+          "timestamp": "2026-07-08T05:39:08.171Z"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "text": "I run a physical therapy practice and we also have a massage service category. \n\nWe have 6 physical therapists, 2 of whom provide certain categories of massage as well, and 2 masseuses who do only massage services. we also have a special SoftWave service and 2 of our therapists are credentialed to do soft wave, one of which also does massage.",
+              "type": "text"
+            }
+          ],
+          "timestamp": "2026-07-08T05:41:38.130Z"
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "Great, that's a helpful picture! A physical therapy practice with massage services and a specialized SoftWave offering — and some providers who cross over between categories. Let me make sure I have the provider/service overlap right before we go further:\n\n- **6 Physical Therapists** — all do PT; 2 of those also do massage; 1 of those 2 also does SoftWave\n- **2 PTs credentialed for SoftWave** total — so 1 does SoftWave only (no massage), 1 does SoftWave + massage\n- **2 Masseuses** — massage only\n\nDoes that sound right? And a couple of follow-ups:\n\n1. **SoftWave** — is that equipment-dependent? (i.e., you have a specific SoftWave machine that only one patient can use at a time, and the credentialed provider has to be present?)\n2. What are the **specific service types** you offer? For example, is PT broken into initial evaluations vs. follow-up visits? Are there different massage modalities (Swedish, deep tissue, etc.) that need to be scheduled differently?",
+              "type": "text"
+            }
+          ],
+          "timestamp": "2026-07-08T05:41:45.038Z"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "text": "1. yes, we have a single softwave machine. we keep it in a dedicated room, so only one appointment can be booked for that room at a time, and if it is in use softwave can't be done. \n2. yes, PT is broken up into initial eval, which is 1 hour, and regular, which is 40 mins. For massage, we offer 3 types: deep tissue, sports, and Swedish. Our two PT therapists who do massage only do sports. Sports can be 30 mins or 60 mins. Both deep tissue and Swedish can be 30, 60, or 90 minutes. All softwave appointments are 15 minutes.",
+              "type": "text"
+            }
+          ],
+          "timestamp": "2026-07-08T05:48:14.745Z"
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "This is shaping up really clearly. Let me reflect back the full picture before I start recording:\n\n**Providers:**\n- 6 Physical Therapists (PT1–PT6 for now — we can name them properly)\n- 2 Masseuses\n- 2 PTs are SoftWave-credentialed (one of those also does sports massage, the other doesn't do massage)\n- 2 PTs do sports massage (one of whom is the SoftWave+massage PT above)\n\n**Services:**\n- PT Initial Eval — 60 min, requires specific provider\n- PT Regular Visit — 40 min, requires specific provider\n- Sports Massage — 30 or 60 min, requires specific provider\n- Deep Tissue Massage — 30, 60, or 90 min, requires specific provider\n- Swedish Massage — 30, 60, or 90 min, requires specific provider\n- SoftWave — 15 min, requires specific provider + the dedicated SoftWave room\n\n**One question on massage durations:** Since sports/deep tissue/Swedish come in multiple lengths, do patients pick the duration when booking (i.e., they're effectively separate services), or is the length determined some other way?\n\nAlso — before we go further — can you share the **actual names** of your providers? And do you have **one location or multiple**?",
+              "type": "text"
+            }
+          ],
+          "timestamp": "2026-07-08T05:48:22.154Z"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "text": "Good questions. Our masseuses are Artemis and Bianca. Our physical therapists are Cindy, Deon, Eli, Fern, Greg, and Hector. Cindy and Greg do massage. Deon and Greg do softwave. \nPatients pick the duration they want - they're effectively distinct services. We have one location and all our services are provided in person there.",
+              "type": "text"
+            }
+          ],
+          "timestamp": "2026-07-08T05:54:06.364Z"
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "Perfect, now I have the full picture. Let me map out the provider qualifications clearly:\n\n- **Artemis** — Deep Tissue, Swedish, Sports massage\n- **Bianca** — Deep Tissue, Swedish, Sports massage\n- **Cindy** — PT Initial Eval, PT Regular, Sports massage\n- **Deon** — PT Initial Eval, PT Regular, SoftWave\n- **Eli** — PT Initial Eval, PT Regular\n- **Fern** — PT Initial Eval, PT Regular\n- **Greg** — PT Initial Eval, PT Regular, Sports massage, SoftWave\n- **Hector** — PT Initial Eval, PT Regular\n\nDoes that look right? One quick assumption I made: **Artemis and Bianca can do all three massage types** (Deep Tissue, Swedish, and Sports). Is that correct, or do they have their own specializations?\n\nAlso, what's the **name and timezone** of your clinic? That'll let me record the location and then we can talk about your typical weekly schedule.",
+              "type": "text"
+            }
+          ],
+          "timestamp": "2026-07-08T05:54:11.202Z"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "text": "Actually, Artemis doesn't do sports massage, only deep tissue and swedish, but everything else looks good. \nOur practice is called Muscle Works and we're located in Tulsa, OK, USA",
+              "type": "text"
+            }
+          ],
+          "timestamp": "2026-07-08T05:56:58.986Z"
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "Got it — Artemis is Deep Tissue and Swedish only, Bianca covers all three. And Tulsa, OK puts you in the **America/Chicago** timezone.\n\nLet me go ahead and record everything we've established so far — location, all 8 providers, and all the services. I'll do it all at once!",
+              "type": "text"
+            },
+            {
+              "id": "toolu_01CK6tiPGgE6CreC7bGT1Z7v",
+              "name": "add_location",
+              "type": "tool_use",
+              "input": {
+                "name": "Muscle Works",
+                "timezone": "America/Chicago"
+              }
+            },
+            {
+              "id": "toolu_018A34J8iQiLUKnSui2CansJ",
+              "name": "add_provider",
+              "type": "tool_use",
+              "input": {
+                "name": "Artemis"
+              }
+            },
+            {
+              "id": "toolu_01CcKkEGs3czk17tXydQvWk4",
+              "name": "add_provider",
+              "type": "tool_use",
+              "input": {
+                "name": "Bianca"
+              }
+            },
+            {
+              "id": "toolu_01UCHP9uLpEPFbkQo3j2PjD7",
+              "name": "add_provider",
+              "type": "tool_use",
+              "input": {
+                "name": "Cindy"
+              }
+            },
+            {
+              "id": "toolu_013186mK9xFpnsDSDBPnBaqv",
+              "name": "add_provider",
+              "type": "tool_use",
+              "input": {
+                "name": "Deon"
+              }
+            },
+            {
+              "id": "toolu_015K6wBd762x5orx4wcqzCwo",
+              "name": "add_provider",
+              "type": "tool_use",
+              "input": {
+                "name": "Eli"
+              }
+            },
+            {
+              "id": "toolu_01JKkaQPMHrTmEDNGVJk3rGR",
+              "name": "add_provider",
+              "type": "tool_use",
+              "input": {
+                "name": "Fern"
+              }
+            },
+            {
+              "id": "toolu_016Aj2TsfFq4ofoxEcfqidpF",
+              "name": "add_provider",
+              "type": "tool_use",
+              "input": {
+                "name": "Greg"
+              }
+            },
+            {
+              "id": "toolu_01H1hq7fPrdcVrKPYdoh84n3",
+              "name": "add_provider",
+              "type": "tool_use",
+              "input": {
+                "name": "Hector"
+              }
+            },
+            {
+              "id": "toolu_015BikNQtcDKsbq79BBhrq5v",
+              "name": "add_service",
+              "type": "tool_use",
+              "input": {
+                "name": "PT Initial Eval",
+                "duration_minutes": 60,
+                "requires_provider": true
+              }
+            },
+            {
+              "id": "toolu_0137QQVRhfeLodG6BQNXyqDN",
+              "name": "add_service",
+              "type": "tool_use",
+              "input": {
+                "name": "PT Regular Visit",
+                "duration_minutes": 40,
+                "requires_provider": true
+              }
+            },
+            {
+              "id": "toolu_01F9Yoasw37FS646Ltb7WXcc",
+              "name": "add_service",
+              "type": "tool_use",
+              "input": {
+                "name": "Sports Massage 30min",
+                "duration_minutes": 30,
+                "requires_provider": true
+              }
+            },
+            {
+              "id": "toolu_017QaskGvoGtm5SGnMY7iSjb",
+              "name": "add_service",
+              "type": "tool_use",
+              "input": {
+                "name": "Sports Massage 60min",
+                "duration_minutes": 60,
+                "requires_provider": true
+              }
+            },
+            {
+              "id": "toolu_0125SPeyY26VyuDr6JpBYN9t",
+              "name": "add_service",
+              "type": "tool_use",
+              "input": {
+                "name": "Deep Tissue Massage 30min",
+                "duration_minutes": 30,
+                "requires_provider": true
+              }
+            },
+            {
+              "id": "toolu_01NYfqB5mBZXRt9f3SWaviAX",
+              "name": "add_service",
+              "type": "tool_use",
+              "input": {
+                "name": "Deep Tissue Massage 60min",
+                "duration_minutes": 60,
+                "requires_provider": true
+              }
+            },
+            {
+              "id": "toolu_01Ubb8fP4xAcyiLaibRPCmKT",
+              "name": "add_service",
+              "type": "tool_use",
+              "input": {
+                "name": "Deep Tissue Massage 90min",
+                "duration_minutes": 90,
+                "requires_provider": true
+              }
+            },
+            {
+              "id": "toolu_01UXcdYQgCbWHmWvmZnaVXXT",
+              "name": "add_service",
+              "type": "tool_use",
+              "input": {
+                "name": "Swedish Massage 30min",
+                "duration_minutes": 30,
+                "requires_provider": true
+              }
+            },
+            {
+              "id": "toolu_0138AHUsFvVbzwy5vmdZ5ogG",
+              "name": "add_service",
+              "type": "tool_use",
+              "input": {
+                "name": "Swedish Massage 60min",
+                "duration_minutes": 60,
+                "requires_provider": true
+              }
+            },
+            {
+              "id": "toolu_01NsZSFeX8UPJvtKYY5zKKxx",
+              "name": "add_service",
+              "type": "tool_use",
+              "input": {
+                "name": "Swedish Massage 90min",
+                "duration_minutes": 90,
+                "requires_provider": true
+              }
+            },
+            {
+              "id": "toolu_013ZCeFZRx3f3aLVWFrau83d",
+              "name": "add_service",
+              "type": "tool_use",
+              "input": {
+                "name": "SoftWave",
+                "requires_room": true,
+                "duration_minutes": 15,
+                "requires_provider": true
+              }
+            }
+          ],
+          "timestamp": "2026-07-08T05:57:12.577Z"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"047d7d57-d68b-49a8-8c23-7510dc216435\"}",
+              "tool_use_id": "toolu_01CK6tiPGgE6CreC7bGT1Z7v"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"6d871b40-9ed5-4a27-a5f7-8665cf768583\"}",
+              "tool_use_id": "toolu_018A34J8iQiLUKnSui2CansJ"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"c3254e31-86c1-4cc4-b08b-ff88386cdf1a\"}",
+              "tool_use_id": "toolu_01CcKkEGs3czk17tXydQvWk4"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"c1d18d06-dee5-453c-a772-292bafb18045\"}",
+              "tool_use_id": "toolu_01UCHP9uLpEPFbkQo3j2PjD7"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"a731d668-2c55-4803-9660-e4b2b80b56ff\"}",
+              "tool_use_id": "toolu_013186mK9xFpnsDSDBPnBaqv"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"20c42984-3bcd-4025-bf20-cbb051cd0241\"}",
+              "tool_use_id": "toolu_015K6wBd762x5orx4wcqzCwo"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"e4cad8eb-0761-4e3c-a7f1-e87f80178ff2\"}",
+              "tool_use_id": "toolu_01JKkaQPMHrTmEDNGVJk3rGR"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"da51b17a-c26d-4f84-b248-97b0e11d835f\"}",
+              "tool_use_id": "toolu_016Aj2TsfFq4ofoxEcfqidpF"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"ff6cbf41-87a9-4c99-8100-2b64dc98b3d2\"}",
+              "tool_use_id": "toolu_01H1hq7fPrdcVrKPYdoh84n3"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f\"}",
+              "tool_use_id": "toolu_015BikNQtcDKsbq79BBhrq5v"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"a5092712-cc89-45d5-9310-e6fe720a8828\"}",
+              "tool_use_id": "toolu_0137QQVRhfeLodG6BQNXyqDN"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"7ae1011e-8f83-44e3-80c9-2f488f379639\"}",
+              "tool_use_id": "toolu_01F9Yoasw37FS646Ltb7WXcc"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"708ee103-19f0-4a7c-a701-021ab6b7f2aa\"}",
+              "tool_use_id": "toolu_017QaskGvoGtm5SGnMY7iSjb"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"b73d98f5-4598-4209-881e-287e55ae2e10\"}",
+              "tool_use_id": "toolu_0125SPeyY26VyuDr6JpBYN9t"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"cb726ca7-d0dd-48a5-850c-fa776a093dba\"}",
+              "tool_use_id": "toolu_01NYfqB5mBZXRt9f3SWaviAX"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"68cf89c6-d8f2-4b74-92cc-52b40738adf9\"}",
+              "tool_use_id": "toolu_01Ubb8fP4xAcyiLaibRPCmKT"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"02f7226f-83ec-4486-be1d-c052974bfe34\"}",
+              "tool_use_id": "toolu_01UXcdYQgCbWHmWvmZnaVXXT"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"3bc8096d-28ec-40ac-b8e0-81dcc36c3a34\"}",
+              "tool_use_id": "toolu_0138AHUsFvVbzwy5vmdZ5ogG"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"08f8f82a-1dfd-4518-8aef-85ebf1016788\"}",
+              "tool_use_id": "toolu_01NsZSFeX8UPJvtKYY5zKKxx"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"8450fcda-62a1-4e27-9414-3a952f22d180\"}",
+              "tool_use_id": "toolu_013ZCeFZRx3f3aLVWFrau83d"
+            }
+          ],
+          "timestamp": "2026-07-08T05:57:12.577Z"
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "Now let me wire up the SoftWave room and all the provider qualifications in one go:",
+              "type": "text"
+            },
+            {
+              "id": "toolu_01E8eZY2LLTK9dpRE2q4vDMT",
+              "name": "add_room",
+              "type": "tool_use",
+              "input": {
+                "name": "SoftWave Room",
+                "type": "softwave",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435"
+              }
+            },
+            {
+              "id": "toolu_01AC82eH4igp42zx9GzYUrUt",
+              "name": "add_service_room_requirement",
+              "type": "tool_use",
+              "input": {
+                "room_type": "softwave",
+                "service_id": "8450fcda-62a1-4e27-9414-3a952f22d180"
+              }
+            },
+            {
+              "id": "toolu_01NWEdMbVh3nbwiw34ZXDqT3",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "b73d98f5-4598-4209-881e-287e55ae2e10",
+                "provider_id": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+              }
+            },
+            {
+              "id": "toolu_01GaCUdhs1vyZoigbCLJdPZp",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "cb726ca7-d0dd-48a5-850c-fa776a093dba",
+                "provider_id": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+              }
+            },
+            {
+              "id": "toolu_015aLS7WggZFb6kfUvXgkWUh",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "68cf89c6-d8f2-4b74-92cc-52b40738adf9",
+                "provider_id": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+              }
+            },
+            {
+              "id": "toolu_01XTS4knZEfezMvQG6BAycoC",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "02f7226f-83ec-4486-be1d-c052974bfe34",
+                "provider_id": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+              }
+            },
+            {
+              "id": "toolu_01BcJEFsAuvmbPLa3PsZ6ATF",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "3bc8096d-28ec-40ac-b8e0-81dcc36c3a34",
+                "provider_id": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+              }
+            },
+            {
+              "id": "toolu_01XxmW8stzhTZg9b2NT74vVT",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "08f8f82a-1dfd-4518-8aef-85ebf1016788",
+                "provider_id": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+              }
+            },
+            {
+              "id": "toolu_01NgKm7h3MbBBRjp5gPX94TE",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "7ae1011e-8f83-44e3-80c9-2f488f379639",
+                "provider_id": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+              }
+            },
+            {
+              "id": "toolu_0115KgxqyPtzGViPggVxhCyj",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "708ee103-19f0-4a7c-a701-021ab6b7f2aa",
+                "provider_id": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+              }
+            },
+            {
+              "id": "toolu_012W9qkDSggLjsCDRpJoLYc2",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "b73d98f5-4598-4209-881e-287e55ae2e10",
+                "provider_id": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+              }
+            },
+            {
+              "id": "toolu_01XXmJwyy3uUBDwpPCLzCh1i",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "cb726ca7-d0dd-48a5-850c-fa776a093dba",
+                "provider_id": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+              }
+            },
+            {
+              "id": "toolu_01Q4ufRCywTs1Vr4AAy3Gjtr",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "68cf89c6-d8f2-4b74-92cc-52b40738adf9",
+                "provider_id": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+              }
+            },
+            {
+              "id": "toolu_01QynxRMLBSSJYb6W3MkrnRP",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "02f7226f-83ec-4486-be1d-c052974bfe34",
+                "provider_id": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+              }
+            },
+            {
+              "id": "toolu_01GzZ7gxidGeQL4YBsXz72eh",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "3bc8096d-28ec-40ac-b8e0-81dcc36c3a34",
+                "provider_id": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+              }
+            },
+            {
+              "id": "toolu_01WS3H7zfYzdhSds3LKNzchf",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "08f8f82a-1dfd-4518-8aef-85ebf1016788",
+                "provider_id": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+              }
+            },
+            {
+              "id": "toolu_01XzTWqe5y6oMGKxGie6PPAh",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+                "provider_id": "c1d18d06-dee5-453c-a772-292bafb18045"
+              }
+            },
+            {
+              "id": "toolu_011wBy3iBvAc9bcC6aZZ6pEd",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "a5092712-cc89-45d5-9310-e6fe720a8828",
+                "provider_id": "c1d18d06-dee5-453c-a772-292bafb18045"
+              }
+            },
+            {
+              "id": "toolu_01VtMMg8PEUR9n6UBPEg3jT4",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "7ae1011e-8f83-44e3-80c9-2f488f379639",
+                "provider_id": "c1d18d06-dee5-453c-a772-292bafb18045"
+              }
+            },
+            {
+              "id": "toolu_019ZEGMbbvwULAbBL3rLQSNx",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "708ee103-19f0-4a7c-a701-021ab6b7f2aa",
+                "provider_id": "c1d18d06-dee5-453c-a772-292bafb18045"
+              }
+            },
+            {
+              "id": "toolu_01CwZ9FtkCKz7Kk6fB79cc11",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+                "provider_id": "a731d668-2c55-4803-9660-e4b2b80b56ff"
+              }
+            },
+            {
+              "id": "toolu_01JY41rR1NxUNE6mU3FqDc9r",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "a5092712-cc89-45d5-9310-e6fe720a8828",
+                "provider_id": "a731d668-2c55-4803-9660-e4b2b80b56ff"
+              }
+            },
+            {
+              "id": "toolu_01WbvXXrdNX1SnSfSmXxSE2W",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "8450fcda-62a1-4e27-9414-3a952f22d180",
+                "provider_id": "a731d668-2c55-4803-9660-e4b2b80b56ff"
+              }
+            },
+            {
+              "id": "toolu_01KdupvAoeY9b4TahbTQxKw6",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+                "provider_id": "20c42984-3bcd-4025-bf20-cbb051cd0241"
+              }
+            },
+            {
+              "id": "toolu_015NwvKY4umnWzzhemcLsRiD",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "a5092712-cc89-45d5-9310-e6fe720a8828",
+                "provider_id": "20c42984-3bcd-4025-bf20-cbb051cd0241"
+              }
+            },
+            {
+              "id": "toolu_01NK9yEkf7ZTzYV61GXixRZw",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+                "provider_id": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2"
+              }
+            },
+            {
+              "id": "toolu_01Wk9ztZ7VuLPC8NFZvbEPDj",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "a5092712-cc89-45d5-9310-e6fe720a8828",
+                "provider_id": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2"
+              }
+            },
+            {
+              "id": "toolu_01DpEcib7i8YHUtHbKAVcZrp",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+                "provider_id": "da51b17a-c26d-4f84-b248-97b0e11d835f"
+              }
+            },
+            {
+              "id": "toolu_016aDYyDjJMCevNXXKH9pk7M",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "a5092712-cc89-45d5-9310-e6fe720a8828",
+                "provider_id": "da51b17a-c26d-4f84-b248-97b0e11d835f"
+              }
+            },
+            {
+              "id": "toolu_01HJxRm3ndAoMsJ3khXUPdx6",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "7ae1011e-8f83-44e3-80c9-2f488f379639",
+                "provider_id": "da51b17a-c26d-4f84-b248-97b0e11d835f"
+              }
+            },
+            {
+              "id": "toolu_01Neno4ZZdxjRdUQhJcFt3gN",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "708ee103-19f0-4a7c-a701-021ab6b7f2aa",
+                "provider_id": "da51b17a-c26d-4f84-b248-97b0e11d835f"
+              }
+            },
+            {
+              "id": "toolu_013BuEWvXppjtofFmXvHFRob",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "8450fcda-62a1-4e27-9414-3a952f22d180",
+                "provider_id": "da51b17a-c26d-4f84-b248-97b0e11d835f"
+              }
+            },
+            {
+              "id": "toolu_01GkwNt92Tkq13goZdEMziKY",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+                "provider_id": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2"
+              }
+            },
+            {
+              "id": "toolu_014MjNVEvoF4aKTuA5q8mkNv",
+              "name": "add_qualification",
+              "type": "tool_use",
+              "input": {
+                "service_id": "a5092712-cc89-45d5-9310-e6fe720a8828",
+                "provider_id": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2"
+              }
+            }
+          ],
+          "timestamp": "2026-07-08T05:57:44.451Z"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "tool_result",
+              "content": "{\"id\":\"cc4304b1-e2cd-499e-9e10-807733f777ec\"}",
+              "tool_use_id": "toolu_01E8eZY2LLTK9dpRE2q4vDMT"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01AC82eH4igp42zx9GzYUrUt"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01NWEdMbVh3nbwiw34ZXDqT3"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01GaCUdhs1vyZoigbCLJdPZp"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_015aLS7WggZFb6kfUvXgkWUh"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01XTS4knZEfezMvQG6BAycoC"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01BcJEFsAuvmbPLa3PsZ6ATF"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01XxmW8stzhTZg9b2NT74vVT"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01NgKm7h3MbBBRjp5gPX94TE"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_0115KgxqyPtzGViPggVxhCyj"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_012W9qkDSggLjsCDRpJoLYc2"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01XXmJwyy3uUBDwpPCLzCh1i"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01Q4ufRCywTs1Vr4AAy3Gjtr"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01QynxRMLBSSJYb6W3MkrnRP"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01GzZ7gxidGeQL4YBsXz72eh"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01WS3H7zfYzdhSds3LKNzchf"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01XzTWqe5y6oMGKxGie6PPAh"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_011wBy3iBvAc9bcC6aZZ6pEd"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01VtMMg8PEUR9n6UBPEg3jT4"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_019ZEGMbbvwULAbBL3rLQSNx"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01CwZ9FtkCKz7Kk6fB79cc11"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01JY41rR1NxUNE6mU3FqDc9r"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01WbvXXrdNX1SnSfSmXxSE2W"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01KdupvAoeY9b4TahbTQxKw6"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_015NwvKY4umnWzzhemcLsRiD"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01NK9yEkf7ZTzYV61GXixRZw"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01Wk9ztZ7VuLPC8NFZvbEPDj"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01DpEcib7i8YHUtHbKAVcZrp"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_016aDYyDjJMCevNXXKH9pk7M"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01HJxRm3ndAoMsJ3khXUPdx6"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01Neno4ZZdxjRdUQhJcFt3gN"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_013BuEWvXppjtofFmXvHFRob"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_01GkwNt92Tkq13goZdEMziKY"
+            },
+            {
+              "type": "tool_result",
+              "content": "{\"ok\":true}",
+              "tool_use_id": "toolu_014MjNVEvoF4aKTuA5q8mkNv"
+            }
+          ],
+          "timestamp": "2026-07-08T05:57:44.451Z"
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "Everything's recorded — location, all 8 providers, 11 services, the SoftWave room, and all qualifications. Here's a quick summary of what's wired up:\n\n| Provider | PT Eval | PT Regular | Sports 30/60 | Deep Tissue 30/60/90 | Swedish 30/60/90 | SoftWave |\n|---|---|---|---|---|---|---|\n| Artemis | | | | ✓ | ✓ | |\n| Bianca | | | ✓ | ✓ | ✓ | |\n| Cindy | ✓ | ✓ | ✓ | | | |\n| Deon | ✓ | ✓ | | | | ✓ |\n| Eli | ✓ | ✓ | | | | |\n| Fern | ✓ | ✓ | | | | |\n| Greg | ✓ | ✓ | ✓ | | | ✓ |\n| Hector | ✓ | ✓ | | | | |\n\nNow let's talk about your **schedule**. What are your clinic hours? And do all providers work the same hours, or do some work different days or shifts?",
+              "type": "text"
+            }
+          ],
+          "timestamp": "2026-07-08T05:57:51.206Z"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "text": "Our clinic is open 8-5, M-F. Closed weekends. We have rotating schedules Artemis is usually Monday-Wednesday, Bianca is usually Wedensday-Friday. Eli and Fern always open, and Hector and Cidy always close. Sometimes Deon opens. Sometimes Greg closes. We usually have between 5 and 6 people in between 9 and 4. There is a lot of variation though. We let most everybody set there own hours but just ask that they give us as much notices as possible so we know what services to make available.",
+              "type": "text"
+            }
+          ],
+          "timestamp": "2026-07-08T06:02:17.101Z"
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "That's a helpful picture! The self-set scheduling with advance notice makes a lot of sense for a practice like yours. Since individual schedules vary week to week, I'll record a **representative week** that reflects the typical patterns you described — the system can be adjusted from there as actual schedules come in.\n\nHere's what I'm hearing as \"typical\":\n- **Artemis**: Mon–Wed, full clinic hours (8–5)\n- **Bianca**: Wed–Fri, full clinic hours (8–5)\n- **Eli & Fern**: Mon–Fri, opening shift (8–1, roughly?)\n- **Hector & Cindy**: Mon–Fri, closing shift (12–5, roughly?)\n- **Deon**: A few days opening (let's say Mon/Wed/Fri as a typical pattern?)\n- **Greg**: A few days closing (let's say Tue/Thu?)\n\nA couple of questions before I lock this in:\n\n1. When you say \"open\" and \"close\" — are you thinking something like **8am–1pm for openers** and **12pm–5pm for closers** (with an overlap in the middle)? Or is it more like strict half-days with no overlap?\n2. For Deon and Greg, do you want me to pick a representative few days, or would you rather I just record them for the full week since their schedules vary anyway?",
+              "type": "text"
+            }
+          ],
+          "timestamp": "2026-07-08T06:02:25.217Z"
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "text": "1. Yes, they can work all day if they like, but most who open tend to leave a little earlier, and those who close start a little later. \n2. You can put Deon and Greg on for the full week, as long as we can make adjustments and have the availability reflected on the booking calendar we surface to patients we're happy.",
+              "type": "text"
+            }
+          ],
+          "timestamp": "2026-07-08T06:04:43.931Z"
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "Perfect. I'll record a representative week of **July 20–25, 2026** (Monday–Friday). I'll use:\n\n- **Artemis**: Mon–Wed 8am–5pm CT\n- **Bianca**: Wed–Fri 8am–5pm CT\n- **Eli & Fern**: Mon–Fri 8am–1pm CT (typical opener pattern)\n- **Hector & Cindy**: Mon–Fri 12pm–5pm CT (typical closer pattern)\n- **Deon & Greg**: Mon–Fri 8am–5pm CT (full week, adjustable)\n\nCT (America/Chicago) is UTC-5 in July, so 8am CT = 13:00 UTC and 5pm CT = 22:00 UTC. Let me record all of these at once!",
+              "type": "text"
+            },
+            {
+              "id": "toolu_011PhEkTagH3hija9vKZvdUW",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-20T22:00:00Z",
+                "start": "2026-07-20T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+              }
+            },
+            {
+              "id": "toolu_017mgcyNovACvpBepY31Qw44",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-21T22:00:00Z",
+                "start": "2026-07-21T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+              }
+            },
+            {
+              "id": "toolu_015hSscaFTN7CQH4URoxGsVZ",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-22T22:00:00Z",
+                "start": "2026-07-22T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+              }
+            },
+            {
+              "id": "toolu_01YGUhnzCTtsrTQVYgqPNiqP",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-22T22:00:00Z",
+                "start": "2026-07-22T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+              }
+            },
+            {
+              "id": "toolu_01Nmn1kZvYYazhMn2NmExEGk",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-23T22:00:00Z",
+                "start": "2026-07-23T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+              }
+            },
+            {
+              "id": "toolu_01PMALdDqkVDfe1qVsYovPB7",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-24T22:00:00Z",
+                "start": "2026-07-24T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+              }
+            },
+            {
+              "id": "toolu_01SHZiYBtaBsuc3mP4mRrojw",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-20T18:00:00Z",
+                "start": "2026-07-20T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "20c42984-3bcd-4025-bf20-cbb051cd0241"
+              }
+            },
+            {
+              "id": "toolu_019rFsmbpNAMBvGcvV8grkwB",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-21T18:00:00Z",
+                "start": "2026-07-21T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "20c42984-3bcd-4025-bf20-cbb051cd0241"
+              }
+            },
+            {
+              "id": "toolu_01Mih99SaUTY4YWo2QXaKArw",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-22T18:00:00Z",
+                "start": "2026-07-22T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "20c42984-3bcd-4025-bf20-cbb051cd0241"
+              }
+            },
+            {
+              "id": "toolu_01RbMQwimkrBE1z1CjRbvCLn",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-23T18:00:00Z",
+                "start": "2026-07-23T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "20c42984-3bcd-4025-bf20-cbb051cd0241"
+              }
+            },
+            {
+              "id": "toolu_0195C6C1ddtwsthNwF9icofT",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-24T18:00:00Z",
+                "start": "2026-07-24T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "20c42984-3bcd-4025-bf20-cbb051cd0241"
+              }
+            },
+            {
+              "id": "toolu_01WXG1zgWqjwv5K4xzyDkM1b",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-20T18:00:00Z",
+                "start": "2026-07-20T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2"
+              }
+            },
+            {
+              "id": "toolu_01MoC9KAA92NRcxMm68HVtH1",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-21T18:00:00Z",
+                "start": "2026-07-21T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2"
+              }
+            },
+            {
+              "id": "toolu_01EcrgUiZdpJniSpYkmjLyvL",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-22T18:00:00Z",
+                "start": "2026-07-22T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2"
+              }
+            },
+            {
+              "id": "toolu_01U4d5NWx6ACqcaL29n8Ubpv",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-23T18:00:00Z",
+                "start": "2026-07-23T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2"
+              }
+            },
+            {
+              "id": "toolu_01CuVoLFoUfhCK927EYEZab9",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-24T18:00:00Z",
+                "start": "2026-07-24T13:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2"
+              }
+            },
+            {
+              "id": "toolu_01WZ1yoVZKsdfspUmJQ5saoo",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-20T22:00:00Z",
+                "start": "2026-07-20T17:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2"
+              }
+            },
+            {
+              "id": "toolu_01L5VwkadyWjAGKA2yWwFcG3",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-21T22:00:00Z",
+                "start": "2026-07-21T17:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2"
+              }
+            },
+            {
+              "id": "toolu_015xRJvtdtm3upsj95H67F42",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-22T22:00:00Z",
+                "start": "2026-07-22T17:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2"
+              }
+            },
+            {
+              "id": "toolu_01LVCabYnuAeBYa3ohBVf1hv",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-23T22:00:00Z",
+                "start": "2026-07-23T17:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2"
+              }
+            },
+            {
+              "id": "toolu_01K38gtD8jRQBuSx3zv9nvib",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-24T22:00:00Z",
+                "start": "2026-07-24T17:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2"
+              }
+            },
+            {
+              "id": "toolu_012P5Nuaj9G1HKSbtcQ24C8s",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-20T22:00:00Z",
+                "start": "2026-07-20T17:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "c1d18d06-dee5-453c-a772-292bafb18045"
+              }
+            },
+            {
+              "id": "toolu_01JwewEdUbNVFTYXdhqdh1qQ",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "end": "2026-07-21T22:00:00Z",
+                "start": "2026-07-21T17:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "c1d18d06-dee5-453c-a772-292bafb18045"
+              }
+            },
+            {
+              "id": "toolu_01JkxWoWm6BeyHgHm1wtHLzM",
+              "name": "add_provider_schedule",
+              "type": "tool_use",
+              "input": {
+                "start": "2026-07-22T17:00:00Z",
+                "location_id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+                "provider_id": "c1d18d06-dee5-453c-a772-292bafb18045"
+              }
+            }
+          ],
+          "timestamp": "2026-07-08T06:05:26.981Z"
+        }
+      ],
+      "seedPlan": {
+        "rooms": [
+          {
+            "id": "cc4304b1-e2cd-499e-9e10-807733f777ec",
+            "name": "SoftWave Room",
+            "type": "softwave",
+            "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435"
+          }
+        ],
+        "services": [
+          {
+            "id": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+            "name": "PT Initial Eval",
+            "durationMinutes": 60,
+            "requiresProvider": true
+          },
+          {
+            "id": "a5092712-cc89-45d5-9310-e6fe720a8828",
+            "name": "PT Regular Visit",
+            "durationMinutes": 40,
+            "requiresProvider": true
+          },
+          {
+            "id": "7ae1011e-8f83-44e3-80c9-2f488f379639",
+            "name": "Sports Massage 30min",
+            "durationMinutes": 30,
+            "requiresProvider": true
+          },
+          {
+            "id": "708ee103-19f0-4a7c-a701-021ab6b7f2aa",
+            "name": "Sports Massage 60min",
+            "durationMinutes": 60,
+            "requiresProvider": true
+          },
+          {
+            "id": "b73d98f5-4598-4209-881e-287e55ae2e10",
+            "name": "Deep Tissue Massage 30min",
+            "durationMinutes": 30,
+            "requiresProvider": true
+          },
+          {
+            "id": "cb726ca7-d0dd-48a5-850c-fa776a093dba",
+            "name": "Deep Tissue Massage 60min",
+            "durationMinutes": 60,
+            "requiresProvider": true
+          },
+          {
+            "id": "68cf89c6-d8f2-4b74-92cc-52b40738adf9",
+            "name": "Deep Tissue Massage 90min",
+            "durationMinutes": 90,
+            "requiresProvider": true
+          },
+          {
+            "id": "02f7226f-83ec-4486-be1d-c052974bfe34",
+            "name": "Swedish Massage 30min",
+            "durationMinutes": 30,
+            "requiresProvider": true
+          },
+          {
+            "id": "3bc8096d-28ec-40ac-b8e0-81dcc36c3a34",
+            "name": "Swedish Massage 60min",
+            "durationMinutes": 60,
+            "requiresProvider": true
+          },
+          {
+            "id": "08f8f82a-1dfd-4518-8aef-85ebf1016788",
+            "name": "Swedish Massage 90min",
+            "durationMinutes": 90,
+            "requiresProvider": true
+          },
+          {
+            "id": "8450fcda-62a1-4e27-9414-3a952f22d180",
+            "name": "SoftWave",
+            "requiresRoom": true,
+            "durationMinutes": 15,
+            "requiresProvider": true
+          }
+        ],
+        "locations": [
+          {
+            "id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+            "name": "Muscle Works",
+            "timezone": "America/Chicago"
+          }
+        ],
+        "providers": [
+          {
+            "id": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+            "name": "Artemis"
+          },
+          {
+            "id": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+            "name": "Bianca"
+          },
+          {
+            "id": "c1d18d06-dee5-453c-a772-292bafb18045",
+            "name": "Cindy"
+          },
+          {
+            "id": "a731d668-2c55-4803-9660-e4b2b80b56ff",
+            "name": "Deon"
+          },
+          {
+            "id": "20c42984-3bcd-4025-bf20-cbb051cd0241",
+            "name": "Eli"
+          },
+          {
+            "id": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2",
+            "name": "Fern"
+          },
+          {
+            "id": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+            "name": "Greg"
+          },
+          {
+            "id": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2",
+            "name": "Hector"
+          }
+        ],
+        "pinnedSlots": [],
+        "unsupported": [],
+        "qualifications": [
+          {
+            "serviceId": "b73d98f5-4598-4209-881e-287e55ae2e10",
+            "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+          },
+          {
+            "serviceId": "cb726ca7-d0dd-48a5-850c-fa776a093dba",
+            "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+          },
+          {
+            "serviceId": "68cf89c6-d8f2-4b74-92cc-52b40738adf9",
+            "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+          },
+          {
+            "serviceId": "02f7226f-83ec-4486-be1d-c052974bfe34",
+            "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+          },
+          {
+            "serviceId": "3bc8096d-28ec-40ac-b8e0-81dcc36c3a34",
+            "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+          },
+          {
+            "serviceId": "08f8f82a-1dfd-4518-8aef-85ebf1016788",
+            "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583"
+          },
+          {
+            "serviceId": "7ae1011e-8f83-44e3-80c9-2f488f379639",
+            "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+          },
+          {
+            "serviceId": "708ee103-19f0-4a7c-a701-021ab6b7f2aa",
+            "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+          },
+          {
+            "serviceId": "b73d98f5-4598-4209-881e-287e55ae2e10",
+            "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+          },
+          {
+            "serviceId": "cb726ca7-d0dd-48a5-850c-fa776a093dba",
+            "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+          },
+          {
+            "serviceId": "68cf89c6-d8f2-4b74-92cc-52b40738adf9",
+            "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+          },
+          {
+            "serviceId": "02f7226f-83ec-4486-be1d-c052974bfe34",
+            "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+          },
+          {
+            "serviceId": "3bc8096d-28ec-40ac-b8e0-81dcc36c3a34",
+            "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+          },
+          {
+            "serviceId": "08f8f82a-1dfd-4518-8aef-85ebf1016788",
+            "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a"
+          },
+          {
+            "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+            "providerId": "c1d18d06-dee5-453c-a772-292bafb18045"
+          },
+          {
+            "serviceId": "a5092712-cc89-45d5-9310-e6fe720a8828",
+            "providerId": "c1d18d06-dee5-453c-a772-292bafb18045"
+          },
+          {
+            "serviceId": "7ae1011e-8f83-44e3-80c9-2f488f379639",
+            "providerId": "c1d18d06-dee5-453c-a772-292bafb18045"
+          },
+          {
+            "serviceId": "708ee103-19f0-4a7c-a701-021ab6b7f2aa",
+            "providerId": "c1d18d06-dee5-453c-a772-292bafb18045"
+          },
+          {
+            "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+            "providerId": "a731d668-2c55-4803-9660-e4b2b80b56ff"
+          },
+          {
+            "serviceId": "a5092712-cc89-45d5-9310-e6fe720a8828",
+            "providerId": "a731d668-2c55-4803-9660-e4b2b80b56ff"
+          },
+          {
+            "serviceId": "8450fcda-62a1-4e27-9414-3a952f22d180",
+            "providerId": "a731d668-2c55-4803-9660-e4b2b80b56ff"
+          },
+          {
+            "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+            "providerId": "20c42984-3bcd-4025-bf20-cbb051cd0241"
+          },
+          {
+            "serviceId": "a5092712-cc89-45d5-9310-e6fe720a8828",
+            "providerId": "20c42984-3bcd-4025-bf20-cbb051cd0241"
+          },
+          {
+            "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+            "providerId": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2"
+          },
+          {
+            "serviceId": "a5092712-cc89-45d5-9310-e6fe720a8828",
+            "providerId": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2"
+          },
+          {
+            "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+            "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f"
+          },
+          {
+            "serviceId": "a5092712-cc89-45d5-9310-e6fe720a8828",
+            "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f"
+          },
+          {
+            "serviceId": "7ae1011e-8f83-44e3-80c9-2f488f379639",
+            "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f"
+          },
+          {
+            "serviceId": "708ee103-19f0-4a7c-a701-021ab6b7f2aa",
+            "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f"
+          },
+          {
+            "serviceId": "8450fcda-62a1-4e27-9414-3a952f22d180",
+            "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f"
+          },
+          {
+            "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+            "providerId": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2"
+          },
+          {
+            "serviceId": "a5092712-cc89-45d5-9310-e6fe720a8828",
+            "providerId": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2"
+          }
+        ],
+        "locationSchedules": [],
+        "providerSchedules": [],
+        "serviceRoomRequirements": [
+          {
+            "roomType": "softwave",
+            "serviceId": "8450fcda-62a1-4e27-9414-3a952f22d180"
+          }
+        ]
+      },
+      "createdAt": "2026-07-07T21:39:08.173Z",
+      "committedAt": "2026-07-08T06:07:15.710Z"
+    }
+  ],
+  "locations": [
+    {
+      "id": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "name": "Muscle Works",
+      "timezone": "America/Chicago",
+      "tag": "agentic-46cf9615"
+    }
+  ],
+  "locationSchedules": [],
+  "services": [
+    {
+      "id": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+      "name": "PT Initial Eval",
+      "durationMinutes": 60,
+      "requiresRoom": false,
+      "requiresProvider": true,
+      "bookingCadenceMinutes": null,
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "a5092712-cc89-45d5-9310-e6fe720a8828",
+      "name": "PT Regular Visit",
+      "durationMinutes": 40,
+      "requiresRoom": false,
+      "requiresProvider": true,
+      "bookingCadenceMinutes": null,
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "7ae1011e-8f83-44e3-80c9-2f488f379639",
+      "name": "Sports Massage 30min",
+      "durationMinutes": 30,
+      "requiresRoom": false,
+      "requiresProvider": true,
+      "bookingCadenceMinutes": null,
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "708ee103-19f0-4a7c-a701-021ab6b7f2aa",
+      "name": "Sports Massage 60min",
+      "durationMinutes": 60,
+      "requiresRoom": false,
+      "requiresProvider": true,
+      "bookingCadenceMinutes": null,
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "b73d98f5-4598-4209-881e-287e55ae2e10",
+      "name": "Deep Tissue Massage 30min",
+      "durationMinutes": 30,
+      "requiresRoom": false,
+      "requiresProvider": true,
+      "bookingCadenceMinutes": null,
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "cb726ca7-d0dd-48a5-850c-fa776a093dba",
+      "name": "Deep Tissue Massage 60min",
+      "durationMinutes": 60,
+      "requiresRoom": false,
+      "requiresProvider": true,
+      "bookingCadenceMinutes": null,
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "68cf89c6-d8f2-4b74-92cc-52b40738adf9",
+      "name": "Deep Tissue Massage 90min",
+      "durationMinutes": 90,
+      "requiresRoom": false,
+      "requiresProvider": true,
+      "bookingCadenceMinutes": null,
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "02f7226f-83ec-4486-be1d-c052974bfe34",
+      "name": "Swedish Massage 30min",
+      "durationMinutes": 30,
+      "requiresRoom": false,
+      "requiresProvider": true,
+      "bookingCadenceMinutes": null,
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "3bc8096d-28ec-40ac-b8e0-81dcc36c3a34",
+      "name": "Swedish Massage 60min",
+      "durationMinutes": 60,
+      "requiresRoom": false,
+      "requiresProvider": true,
+      "bookingCadenceMinutes": null,
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "08f8f82a-1dfd-4518-8aef-85ebf1016788",
+      "name": "Swedish Massage 90min",
+      "durationMinutes": 90,
+      "requiresRoom": false,
+      "requiresProvider": true,
+      "bookingCadenceMinutes": null,
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "8450fcda-62a1-4e27-9414-3a952f22d180",
+      "name": "SoftWave",
+      "durationMinutes": 15,
+      "requiresRoom": true,
+      "requiresProvider": true,
+      "bookingCadenceMinutes": null,
+      "tag": "agentic-46cf9615"
+    }
+  ],
+  "servicesRoomRequirements": [
+    {
+      "serviceId": "8450fcda-62a1-4e27-9414-3a952f22d180",
+      "roomType": "softwave",
+      "tag": "agentic-46cf9615"
+    }
+  ],
+  "providers": [
+    {
+      "id": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+      "name": "Artemis",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "name": "Bianca",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "c1d18d06-dee5-453c-a772-292bafb18045",
+      "name": "Cindy",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "a731d668-2c55-4803-9660-e4b2b80b56ff",
+      "name": "Deon",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "20c42984-3bcd-4025-bf20-cbb051cd0241",
+      "name": "Eli",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2",
+      "name": "Fern",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+      "name": "Greg",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2",
+      "name": "Hector",
+      "tag": "agentic-46cf9615"
+    }
+  ],
+  "providerQualifications": [
+    {
+      "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+      "serviceId": "b73d98f5-4598-4209-881e-287e55ae2e10",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+      "serviceId": "cb726ca7-d0dd-48a5-850c-fa776a093dba",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+      "serviceId": "68cf89c6-d8f2-4b74-92cc-52b40738adf9",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+      "serviceId": "02f7226f-83ec-4486-be1d-c052974bfe34",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+      "serviceId": "3bc8096d-28ec-40ac-b8e0-81dcc36c3a34",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+      "serviceId": "08f8f82a-1dfd-4518-8aef-85ebf1016788",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "serviceId": "7ae1011e-8f83-44e3-80c9-2f488f379639",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "serviceId": "708ee103-19f0-4a7c-a701-021ab6b7f2aa",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "serviceId": "b73d98f5-4598-4209-881e-287e55ae2e10",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "serviceId": "cb726ca7-d0dd-48a5-850c-fa776a093dba",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "serviceId": "68cf89c6-d8f2-4b74-92cc-52b40738adf9",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "serviceId": "02f7226f-83ec-4486-be1d-c052974bfe34",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "serviceId": "3bc8096d-28ec-40ac-b8e0-81dcc36c3a34",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "serviceId": "08f8f82a-1dfd-4518-8aef-85ebf1016788",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "c1d18d06-dee5-453c-a772-292bafb18045",
+      "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "c1d18d06-dee5-453c-a772-292bafb18045",
+      "serviceId": "a5092712-cc89-45d5-9310-e6fe720a8828",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "c1d18d06-dee5-453c-a772-292bafb18045",
+      "serviceId": "7ae1011e-8f83-44e3-80c9-2f488f379639",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "c1d18d06-dee5-453c-a772-292bafb18045",
+      "serviceId": "708ee103-19f0-4a7c-a701-021ab6b7f2aa",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "a731d668-2c55-4803-9660-e4b2b80b56ff",
+      "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "a731d668-2c55-4803-9660-e4b2b80b56ff",
+      "serviceId": "a5092712-cc89-45d5-9310-e6fe720a8828",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "a731d668-2c55-4803-9660-e4b2b80b56ff",
+      "serviceId": "8450fcda-62a1-4e27-9414-3a952f22d180",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "20c42984-3bcd-4025-bf20-cbb051cd0241",
+      "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "20c42984-3bcd-4025-bf20-cbb051cd0241",
+      "serviceId": "a5092712-cc89-45d5-9310-e6fe720a8828",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2",
+      "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2",
+      "serviceId": "a5092712-cc89-45d5-9310-e6fe720a8828",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+      "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+      "serviceId": "a5092712-cc89-45d5-9310-e6fe720a8828",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+      "serviceId": "7ae1011e-8f83-44e3-80c9-2f488f379639",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+      "serviceId": "708ee103-19f0-4a7c-a701-021ab6b7f2aa",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+      "serviceId": "8450fcda-62a1-4e27-9414-3a952f22d180",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2",
+      "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "providerId": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2",
+      "serviceId": "a5092712-cc89-45d5-9310-e6fe720a8828",
+      "tag": "agentic-46cf9615"
+    }
+  ],
+  "providerSchedules": [
+    {
+      "id": "4bb2b873-688a-44e6-9cda-35f21b3fa1ad",
+      "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-06T19:00:00.000Z",
+      "end": "2026-07-06T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "39d7fbeb-620f-4a0d-ac7e-5962ab5b45e7",
+      "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-06T13:00:00.000Z",
+      "end": "2026-07-06T17:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "11b818d5-b3eb-44ab-ab8b-2a524ae9c743",
+      "providerId": "c1d18d06-dee5-453c-a772-292bafb18045",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-06T13:00:00.000Z",
+      "end": "2026-07-06T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "6e22cc76-813e-43f4-bef9-2769207a9ce7",
+      "providerId": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-06T14:00:00.000Z",
+      "end": "2026-07-06T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "42391ea3-8e2d-46cb-a3ee-72aa86a680fc",
+      "providerId": "20c42984-3bcd-4025-bf20-cbb051cd0241",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-06T14:00:00.000Z",
+      "end": "2026-07-06T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "ddd801a5-7582-42f2-bf4e-42f845f92204",
+      "providerId": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-06T14:00:00.000Z",
+      "end": "2026-07-06T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "bb1e749c-0247-4706-b0fe-2a9387bc9ca0",
+      "providerId": "a731d668-2c55-4803-9660-e4b2b80b56ff",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-06T14:00:00.000Z",
+      "end": "2026-07-06T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "0a89052f-eaeb-41f0-9c3a-32b5a7db4ce0",
+      "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-06T14:00:00.000Z",
+      "end": "2026-07-06T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "44909cf9-78f3-46cb-a571-aa89aa30a201",
+      "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-07T19:00:00.000Z",
+      "end": "2026-07-07T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "0fbe6dce-50ba-4664-a359-55567e07a13f",
+      "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-07T13:00:00.000Z",
+      "end": "2026-07-07T17:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "9cbc2cf6-20f8-481f-a8b1-147feedb93f5",
+      "providerId": "c1d18d06-dee5-453c-a772-292bafb18045",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-07T13:00:00.000Z",
+      "end": "2026-07-07T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "820a80d0-851a-449c-a90b-4a49c88643b7",
+      "providerId": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-07T14:00:00.000Z",
+      "end": "2026-07-07T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "267ce47a-1e0a-4ffe-a893-505283aa366f",
+      "providerId": "20c42984-3bcd-4025-bf20-cbb051cd0241",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-07T14:00:00.000Z",
+      "end": "2026-07-07T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "f6c11f71-1c65-4587-a21e-dc68f6d88bf9",
+      "providerId": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-07T14:00:00.000Z",
+      "end": "2026-07-07T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "0814460f-b0cb-46af-8524-40e785a09edc",
+      "providerId": "a731d668-2c55-4803-9660-e4b2b80b56ff",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-07T14:00:00.000Z",
+      "end": "2026-07-07T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "b72e7be7-7bbf-46aa-ba87-8f726e2029eb",
+      "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-07T14:00:00.000Z",
+      "end": "2026-07-07T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "bee59129-c9ac-42a7-9795-34411e9ac307",
+      "providerId": "c1d18d06-dee5-453c-a772-292bafb18045",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-10T13:00:00.000Z",
+      "end": "2026-07-10T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "c7d9c907-8a7a-4ca3-bc8a-36efc7d51689",
+      "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-10T13:00:00.000Z",
+      "end": "2026-07-10T17:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "b8fcc5e4-7fd7-4ca8-aabd-d6036f3dd554",
+      "providerId": "20c42984-3bcd-4025-bf20-cbb051cd0241",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-10T14:00:00.000Z",
+      "end": "2026-07-10T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "cbb3e783-2a82-4835-b69d-fb551500fed0",
+      "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-10T14:00:00.000Z",
+      "end": "2026-07-10T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "aafeca44-b912-4421-a00a-31753bbdaa3a",
+      "providerId": "a731d668-2c55-4803-9660-e4b2b80b56ff",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-10T14:00:00.000Z",
+      "end": "2026-07-10T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "2e877bf7-fef1-4e92-bace-131ae444e07b",
+      "providerId": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-10T14:00:00.000Z",
+      "end": "2026-07-10T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "c3dc2485-2f5f-4202-8d9e-2941ab3be293",
+      "providerId": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-10T14:00:00.000Z",
+      "end": "2026-07-10T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "e47e1a58-5d0a-4bd1-b769-3b3b9b848f84",
+      "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-10T19:00:00.000Z",
+      "end": "2026-07-10T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "d428c709-812e-4cea-be12-fd486f16d4b4",
+      "providerId": "c1d18d06-dee5-453c-a772-292bafb18045",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-09T13:00:00.000Z",
+      "end": "2026-07-09T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "90879b5e-b403-47ca-b983-b662df345ab4",
+      "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-09T13:00:00.000Z",
+      "end": "2026-07-09T17:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "1f3fe661-6e37-47af-927c-40de2a677c51",
+      "providerId": "20c42984-3bcd-4025-bf20-cbb051cd0241",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-09T14:00:00.000Z",
+      "end": "2026-07-09T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "210d3672-f242-40a5-8f5d-a0f3f124ace7",
+      "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-09T14:00:00.000Z",
+      "end": "2026-07-09T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "12b79130-dbd6-4c67-9079-395290818b7c",
+      "providerId": "a731d668-2c55-4803-9660-e4b2b80b56ff",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-09T14:00:00.000Z",
+      "end": "2026-07-09T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "6c55fc34-901a-44d1-916e-3ab487da3380",
+      "providerId": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-09T14:00:00.000Z",
+      "end": "2026-07-09T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "f9e8a85a-d690-4318-8a0f-eeeb857c3619",
+      "providerId": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-09T14:00:00.000Z",
+      "end": "2026-07-09T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "9f733006-cbca-4bf8-aaeb-2c785b41c784",
+      "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-09T19:00:00.000Z",
+      "end": "2026-07-09T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "87713ced-655e-472a-a8f6-5bd8ebcc59cf",
+      "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-08T13:00:00.000Z",
+      "end": "2026-07-08T17:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "1a2fda08-8b97-48ec-bb9b-7b6473bb21e5",
+      "providerId": "c1d18d06-dee5-453c-a772-292bafb18045",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-08T13:00:00.000Z",
+      "end": "2026-07-08T18:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "5d942b21-bcfb-45b3-af31-f85f274374f6",
+      "providerId": "a731d668-2c55-4803-9660-e4b2b80b56ff",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-08T14:00:00.000Z",
+      "end": "2026-07-08T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "d15b46fd-57a2-4deb-8dd9-e5913fd5affe",
+      "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-08T14:00:00.000Z",
+      "end": "2026-07-08T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "8b05645c-7f80-4621-a061-8235ceee3bee",
+      "providerId": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-08T14:00:00.000Z",
+      "end": "2026-07-08T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "35b10d27-6f0e-463e-88f6-06d25c5aac40",
+      "providerId": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-08T14:00:00.000Z",
+      "end": "2026-07-08T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "06718d01-c929-45ea-87c2-3496c4865c4c",
+      "providerId": "20c42984-3bcd-4025-bf20-cbb051cd0241",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-08T14:00:00.000Z",
+      "end": "2026-07-08T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "f56c4646-2b36-4cbb-8fe1-3b627185597b",
+      "providerId": "c3254e31-86c1-4cc4-b08b-ff88386cdf1a",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-08T14:00:00.000Z",
+      "end": "2026-07-08T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "c556b40a-8a82-4b33-a31d-032278a7a58d",
+      "providerId": "6d871b40-9ed5-4a27-a5f7-8665cf768583",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-08T19:00:00.000Z",
+      "end": "2026-07-08T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "46a397c3-0d4a-4251-90cb-c641325dddcb",
+      "providerId": "c1d18d06-dee5-453c-a772-292bafb18045",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "start": "2026-07-08T07:30:00.000Z",
+      "end": "2026-07-08T22:00:00.000Z",
+      "tag": "agentic-46cf9615"
+    }
+  ],
+  "rooms": [
+    {
+      "id": "cc4304b1-e2cd-499e-9e10-807733f777ec",
+      "name": "SoftWave Room",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "type": "softwave",
+      "tag": "agentic-46cf9615"
+    }
+  ],
+  "slots": [
+    {
+      "id": "e0042f18-b4c2-4047-87f1-98a5a8938130",
+      "providerId": "a731d668-2c55-4803-9660-e4b2b80b56ff",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "serviceId": "8450fcda-62a1-4e27-9414-3a952f22d180",
+      "roomId": "cc4304b1-e2cd-499e-9e10-807733f777ec",
+      "start": "2026-07-09T14:00:00.000Z",
+      "end": "2026-07-09T14:15:00.000Z",
+      "status": "busy",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "e9cc868c-11be-4dc2-9345-353f1b866076",
+      "providerId": "c1d18d06-dee5-453c-a772-292bafb18045",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+      "roomId": null,
+      "start": "2026-07-09T14:00:00.000Z",
+      "end": "2026-07-09T15:00:00.000Z",
+      "status": "canceled",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "4d62922f-7bbe-422e-b6bc-3cf4620f3932",
+      "providerId": "20c42984-3bcd-4025-bf20-cbb051cd0241",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+      "roomId": null,
+      "start": "2026-07-09T14:00:00.000Z",
+      "end": "2026-07-09T15:00:00.000Z",
+      "status": "canceled",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "f9638ccb-6919-45c9-b69a-a0b9370cd726",
+      "providerId": "e4cad8eb-0761-4e3c-a7f1-e87f80178ff2",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+      "roomId": null,
+      "start": "2026-07-09T14:00:00.000Z",
+      "end": "2026-07-09T15:00:00.000Z",
+      "status": "canceled",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "9332eaee-1864-420f-868f-1cf8fdb61208",
+      "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+      "roomId": null,
+      "start": "2026-07-09T14:00:00.000Z",
+      "end": "2026-07-09T15:00:00.000Z",
+      "status": "canceled",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "5afd61b6-d0f5-432b-a8dc-24ed73343c0f",
+      "providerId": "ff6cbf41-87a9-4c99-8100-2b64dc98b3d2",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "serviceId": "e942d916-dd5b-45d2-9ac5-d02cd1fc9e1f",
+      "roomId": null,
+      "start": "2026-07-09T14:00:00.000Z",
+      "end": "2026-07-09T15:00:00.000Z",
+      "status": "canceled",
+      "tag": "agentic-46cf9615"
+    },
+    {
+      "id": "b2162273-2e12-4964-a851-8286ae27ff65",
+      "providerId": "da51b17a-c26d-4f84-b248-97b0e11d835f",
+      "locationId": "047d7d57-d68b-49a8-8c23-7510dc216435",
+      "serviceId": "8450fcda-62a1-4e27-9414-3a952f22d180",
+      "roomId": "cc4304b1-e2cd-499e-9e10-807733f777ec",
+      "start": "2026-07-09T16:15:00.000Z",
+      "end": "2026-07-09T16:30:00.000Z",
+      "status": "busy",
+      "tag": "agentic-46cf9615"
+    }
+  ]
+}

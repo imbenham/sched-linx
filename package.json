@@ -1,0 +1,40 @@
+{
+  "name": "sched-linx",
+  "version": "0.0.0",
+  "private": true,
+  "description": "DLX-based scheduling prototype. TypeScript + ESM. Algorithm-first.",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build:refdb": "tsx scripts/build-ref-db.ts",
+    "build": "npm run build:refdb && next build",
+    "start": "next start",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.16",
+    "@types/react-dom": "^19.2.3",
+    "drizzle-kit": "^0.31.10",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^4.3.0",
+    "tsx": "^4.23.1",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.107.0",
+    "@electric-sql/pglite": "^0.5.1",
+    "@tailwindcss/typography": "^0.5.20",
+    "drizzle-orm": "^0.45.2",
+    "next": "^16.2.7",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
+  }
+}

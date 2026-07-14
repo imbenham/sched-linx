@@ -1,0 +1,1 @@
+export const PROSE_CLASSES = "prose prose-slate lg:prose-lg max-w-2xl mx-auto p-6 md:p-8";

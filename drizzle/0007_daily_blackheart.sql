@@ -1,0 +1,1 @@
+ALTER TABLE "services" ADD COLUMN "booking_cadence_minutes" integer;
