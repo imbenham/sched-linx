@@ -238,21 +238,21 @@ export function Calendar({
     if (!selectedService) return;
     setError(null);
     setResult(null);
-    const start = timeslot.isoStart as Instant;
+    const start = timeslot.isoStart;
     const end = isoPlusMinutes(
       timeslot.isoStart,
       selectedService.durationMinutes,
-    ) as Instant;
+    );
     startTransition(async () => {
       try {
         const r = await scheduleAppointmentAction(
           {
-            serviceId: selectedService.id as ServiceId,
+            serviceId: selectedService.id,
             ...(mode === 'known'
-              ? { providerId: providerId as ProviderId }
+              ? { providerId: providerId }
               : {}),
             ...(selectedLocationId
-              ? { locationId: selectedLocationId as LocationId }
+              ? { locationId: selectedLocationId }
               : {}),
             window: { start, end },
             granularityMinutes: cadenceMinutes,

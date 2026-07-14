@@ -193,7 +193,18 @@ Let's start with a couple of orientation questions:
 
 Once I have that, we'll get into the specifics — the services you offer, whether you have rooms or equipment that constrain scheduling, and the pattern of how appointments are booked (scheduled per-provider, walk-in against capacity, or a mix).`;
 
-const client = new Anthropic();
+// Lazy-init the Anthropic client so this module can be imported even
+// when ANTHROPIC_API_KEY is unset (the SDK constructor throws
+// otherwise). Read paths — listSetups, getSetup, exportSetup — never
+// touch the client, so a read-only deploy can safely omit the key.
+// sendUserMessage is the only caller and it's already guarded by the
+// read-only flag before it gets here.
+let cachedAnthropic: Anthropic | null = null;
+function getAnthropicClient(): Anthropic {
+  if (cachedAnthropic) return cachedAnthropic;
+  cachedAnthropic = new Anthropic();
+  return cachedAnthropic;
+}
 
 // ─── Seed plan (staging area) ────────────────────────────────────────────────
 
@@ -1367,7 +1378,7 @@ export async function sendUserMessage(
   // and feeding tool_results back, until it stops calling tools (or we
   // hit the iteration cap as a runaway guard).
   for (let iteration = 0; iteration < MAX_TOOL_LOOP_ITERATIONS; iteration++) {
-    const response = await client.messages.create({
+    const response = await getAnthropicClient().messages.create({
       model: process.env.ANTHROPIC_MODEL ?? DEFAULT_MODEL,
       max_tokens: MAX_TOKENS_PER_TURN,
       system: buildSystemPrompt(),

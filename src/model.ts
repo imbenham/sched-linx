@@ -10,21 +10,24 @@
 // reattaches at that adapter boundary; the canonical core stays
 // patient-anonymous.
 
-type Brand<K, T> = K & { readonly __brand: T };
+// Semantic aliases. Plain `string` under the hood — TypeScript's
+// structural typing means we don't get nominal safety, but for a
+// prototype at this scale the compile-time distinction wasn't earning
+// its keep against the friction of casting at every DB boundary.
+// Kept as named aliases purely for readability at call sites.
+export type ProviderId = string;
+export type ServiceId = string;
+export type LocationId = string;
+export type ProviderScheduleId = string;
+export type LocationScheduleId = string;
+export type SlotId = string;
+export type RoomId = string;
 
-export type ProviderId = Brand<string, 'ProviderId'>;
-export type ServiceId = Brand<string, 'ServiceId'>;
-export type LocationId = Brand<string, 'LocationId'>;
-export type ProviderScheduleId = Brand<string, 'ProviderScheduleId'>;
-export type LocationScheduleId = Brand<string, 'LocationScheduleId'>;
-export type SlotId = Brand<string, 'SlotId'>;
-export type RoomId = Brand<string, 'RoomId'>;
-
-// ISO 8601 timestamp string in UTC (e.g. "2026-05-25T14:30:00Z"). The brand
-// is unenforceable at runtime — callers must construct from a valid ISO UTC
-// string. Keeping time as a branded string avoids the timezone footguns of
-// `Date` while preserving cheap equality and serialization.
-export type Instant = Brand<string, 'Instant'>;
+// ISO 8601 timestamp string in UTC (e.g. "2026-05-25T14:30:00Z").
+// Callers must construct from a valid ISO UTC string. Keeping time as
+// a string avoids the timezone footguns of `Date` while preserving
+// cheap equality and serialization.
+export type Instant = string;
 
 // Slot lifecycle. FHIR-aligned vocabulary: `free` (an open slot, available
 // to be booked), `busy` (an active booking — what the matrix treats as a

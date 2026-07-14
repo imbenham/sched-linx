@@ -47,7 +47,7 @@ const REQUEST_BOOKING_ID = '__request__';
 
 const toEpoch = (i: Instant): number => Date.parse(i);
 const fromEpoch = (ms: number): Instant =>
-  new Date(ms).toISOString() as Instant;
+  new Date(ms).toISOString();
 
 // Picker context = generator context + the slots currently busy. Each
 // pinned slot becomes a single-candidate booking (for the matrix path)

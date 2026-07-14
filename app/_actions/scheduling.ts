@@ -81,7 +81,7 @@ export async function resetScenarioAction(scenarioTag?: string): Promise<void> {
 
 export async function cancelBookingAction(slotId: string): Promise<void> {
   const db = await getDatabase();
-  await cancelBooking(db, slotId as SlotId);
+  await cancelBooking(db, slotId);
   revalidateAll();
 }
 
@@ -318,10 +318,10 @@ function anonymousState(input: AnonymousStateInput): AnonymousCalendarCellState 
     const bookingRequest: BookingRequest = {
       serviceId: service.id,
       window: {
-        start: cellIsoStart as Instant,
+        start: cellIsoStart,
         end: new Date(
           Date.parse(cellIsoStart) + service.durationMinutes * 60_000,
-        ).toISOString() as Instant,
+        ).toISOString(),
       },
       granularityMinutes: cadenceMinutes,
     };
@@ -530,7 +530,7 @@ export async function loadCalendarCellsAction(input: CalendarCellsInput): Promis
       .where(scenarioTag ? eq(providers.tag, scenarioTag) : undefined),
   ]);
   const allProviders: Provider[] = rawProviders.map((p) => ({
-    id: p.id as ProviderId,
+    id: p.id,
     name: p.name,
   }));
 

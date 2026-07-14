@@ -16,7 +16,7 @@ const MS_PER_MINUTE = 60_000;
 
 const toEpoch = (i: Instant): number => Date.parse(i);
 const fromEpoch = (ms: number): Instant =>
-  new Date(ms).toISOString() as Instant;
+  new Date(ms).toISOString();
 
 // Which rooms are eligible for a given service, mirroring the matrix
 // layer's understanding. Exported so both candidate generation

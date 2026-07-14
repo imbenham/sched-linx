@@ -144,7 +144,7 @@ export default async function Scenario4() {
         initialMode="anonymous"
         services={allServices.map(
           (s): Service => ({
-            id: s.id as ServiceId,
+            id: s.id,
             name: s.name,
             durationMinutes: s.durationMinutes,
             requiresProvider: s.requiresProvider,
@@ -156,7 +156,7 @@ export default async function Scenario4() {
         qualifications={[]}
         locations={allLocations.map(
           (l): Location => ({
-            id: l.id as LocationId,
+            id: l.id,
             name: l.name,
             timezone: l.timezone ?? undefined,
           }),

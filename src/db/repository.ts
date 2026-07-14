@@ -47,7 +47,7 @@ export interface SchedulingContext extends GenerateSlotsContext {
 
 }
 
-const newSlotId = (): SlotId => randomUUID() as SlotId;
+const newSlotId = (): SlotId => randomUUID();
 
 // Bulk-load everything the scheduling layer needs in one round trip.
 // Returns canonical types. Pinned slots = persisted slots with
@@ -86,7 +86,7 @@ export async function loadSchedulingContext(
 
   return {
     services: svcRows.map((s) => ({
-      id: s.id as ServiceId,
+      id: s.id,
       name: s.name,
       durationMinutes: s.durationMinutes,
       requiresProvider: s.requiresProvider,
@@ -94,53 +94,53 @@ export async function loadSchedulingContext(
       bookingCadenceMinutes: s.bookingCadenceMinutes ?? undefined,
     })),
     qualifications: qualRows.map((q) => ({
-      providerId: q.providerId as ProviderId,
-      serviceId: q.serviceId as ServiceId,
+      providerId: q.providerId,
+      serviceId: q.serviceId,
     })),
     schedules: schedRows.map((s) => ({
-      id: s.id as ProviderScheduleId,
-      providerId: s.providerId as ProviderId,
-      locationId: s.locationId as LocationId,
-      start: s.start as Instant,
-      end: s.end as Instant,
+      id: s.id,
+      providerId: s.providerId,
+      locationId: s.locationId,
+      start: s.start,
+      end: s.end,
     })),
     rooms: roomRows.map((r) => ({
-      id: r.id as RoomId,
+      id: r.id,
       name: r.name,
-      locationId: r.locationId as LocationId,
+      locationId: r.locationId,
       type: r.type,
     })),
     servicesRoomRequirements: roomRequirementRows.map((rr) => ({
-      serviceId: rr.serviceId as ServiceId,
+      serviceId: rr.serviceId,
       roomType: rr.roomType,
     })),
     pinnedSlots: busySlots.map((s) => ({
-      id: s.id as SlotId,
+      id: s.id,
       // Location-scheduled bookings persist with provider_id = null.
-      providerId: (s.providerId ?? undefined) as ProviderId | undefined,
-      locationId: s.locationId as LocationId,
-      serviceId: s.serviceId as ServiceId,
-      start: s.start as Instant,
-      end: s.end as Instant,
+      providerId: s.providerId ?? undefined,
+      locationId: s.locationId,
+      serviceId: s.serviceId,
+      start: s.start,
+      end: s.end,
       status: 'busy',
       // Without copying roomId here, room-occupied pins enter the matrix
       // without their room cells — the matrix can't see them holding a
       // room and would happily double-book.
-      roomId: (s.roomId ?? undefined) as RoomId | undefined,
+      roomId: s.roomId ?? undefined,
     })),
     locations: locationRows.map(
       (l): Location => ({
-        id: l.id as LocationId,
+        id: l.id,
         name: l.name,
         timezone: l.timezone ?? undefined,
       }),
     ),
     locationSchedules: locationScheduleRows.map(
       (ls): LocationSchedule => ({
-        id: ls.id as LocationScheduleId,
-        locationId: ls.locationId as LocationId,
-        start: ls.start as Instant,
-        end: ls.end as Instant,
+        id: ls.id,
+        locationId: ls.locationId,
+        start: ls.start,
+        end: ls.end,
         capacity: ls.capacity ?? undefined,
       }),
     ),
@@ -240,7 +240,7 @@ export async function applyReshuffle(
       });
 
       moved.push({
-        canceledSlotId: currentSlot.id as SlotId,
+        canceledSlotId: currentSlot.id,
         newSlotId: toSlotId,
       });
     }

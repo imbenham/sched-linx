@@ -134,7 +134,7 @@ export default async function Scenario1() {
         initialDate={calendarDate}
         services={allServices.map(
           (s): Service => ({
-            id: s.id as ServiceId,
+            id: s.id,
             name: s.name,
             durationMinutes: s.durationMinutes,
             requiresProvider: s.requiresProvider,
@@ -144,14 +144,14 @@ export default async function Scenario1() {
         )}
         providers={allProviders.map(
           (p): Provider => ({
-            id: p.id as ProviderId,
+            id: p.id,
             name: p.name,
           }),
         )}
         qualifications={allQualifications.map(
           (q): ProviderQualification => ({
-            providerId: q.providerId as ProviderId,
-            serviceId: q.serviceId as ServiceId,
+            providerId: q.providerId,
+            serviceId: q.serviceId,
           }),
         )}
       />

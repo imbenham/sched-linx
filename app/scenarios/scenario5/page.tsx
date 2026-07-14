@@ -211,7 +211,7 @@ export default async function Scenario5() {
         initialMode="anonymous"
         services={allServices.map(
           (s): Service => ({
-            id: s.id as ServiceId,
+            id: s.id,
             name: s.name,
             durationMinutes: s.durationMinutes,
             requiresProvider: s.requiresProvider,
@@ -221,27 +221,27 @@ export default async function Scenario5() {
         )}
         providers={allProviders.map(
           (p): Provider => ({
-            id: p.id as ProviderId,
+            id: p.id,
             name: p.name,
           }),
         )}
         qualifications={allQualifications.map(
           (q): ProviderQualification => ({
-            providerId: q.providerId as ProviderId,
-            serviceId: q.serviceId as ServiceId,
+            providerId: q.providerId,
+            serviceId: q.serviceId,
           }),
         )}
         rooms={allRooms.map(
           (r): Room => ({
-            id: r.id as RoomId,
+            id: r.id,
             name: r.name,
-            locationId: r.locationId as LocationId,
+            locationId: r.locationId,
             type: r.type,
           }),
         )}
         locations={allLocations.map(
           (l): Location => ({
-            id: l.id as LocationId,
+            id: l.id,
             name: l.name,
             timezone: l.timezone ?? undefined,
           }),
