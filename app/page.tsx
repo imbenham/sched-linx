@@ -38,6 +38,21 @@ export default function Page() {
         Instead of risky rewrites, what if additional constraints could be folded into the same underlying algorithmic framework, without needing to change the core implementation? That's the idea being explored in this prototype: a scheduling system built on top of the Dancing Links algorithm, designed to be flexible and extensible enough to accommodate the wide range of constraints the real world tends to throw at you.
       </p>
 
+      <p>
+        The <Link href="/scenarios">scenarios pages</Link> explore a variety of scheduling contexts and show how the data model can be customized to solve different real world problems of increasing complexity. The scenarios are seeded with data that represents different practice configurations, and the scheduling logic is exercised against those configurations to demonstrate how the system can adapt to different constraints. The scheduling experiences built on the implementations are interactive, so you can see how the system behaves under different conditions and make it a bit less abstract.
+      </p>
+      <p>
+        Another idea explored in the <Link href="/agentic-onboarding">agentic onboarding page</Link> is how an LLM can act as the concierge and interpreter between a user who knows their business case front to back, but wouldn't necessarily know how to translate it to a concrete composition of the scheduling primitives defined by the system to solve their business case. In the real world, this can be a frustrating and costly process carried out by a group of stakeholders who deal in different abstractions. A couple of mock interactions are seeded to show how a user-agent dialog can produce a plan and then instantiate it. Users who want to go deeper can{' '}
+        <a
+          href="https://github.com/imbenham/sched-linx"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          clone the repo
+        </a>{' '}
+        and provide their own Anthropic API key to explore the agentic onboarding experience in a more open-ended way.
+      </p>
+
       <hr />
 
       <p>
