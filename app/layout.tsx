@@ -6,6 +6,7 @@
 
 import './globals.css';
 import { Navbar } from '@/components/navbar';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata = {
   title: 'sched-linx',
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div className="min-h-screen flex flex-row space-x-4">
+          <SpeedInsights />
           <Navbar routes={NAV_ROUTES} orientation='vertical'/>
           <div className="container py-4 width-full">
             {children}

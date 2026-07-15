@@ -29,6 +29,7 @@
     "@anthropic-ai/sdk": "^0.107.0",
     "@electric-sql/pglite": "^0.5.1",
     "@tailwindcss/typography": "^0.5.20",
+    "@vercel/speed-insights": "^2.0.0",
     "drizzle-orm": "^0.45.2",
     "next": "^16.2.7",
     "react": "^19.2.7",
