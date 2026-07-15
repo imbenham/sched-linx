@@ -45,8 +45,7 @@ Open `http://localhost:3000`. The dev DB (`local-db/`) is created on first run a
 | `npm run test` | Run the Vitest suite (78 tests). |
 | `npm run typecheck` | `tsc --noEmit`. |
 | `npm run db:generate` | Generate a Drizzle migration after schema changes. |
-| `npm run build:refdb` | Build the pre-seeded reference DB used by the deploy. |
-| `npm run build` | Chains `build:refdb` then `next build`. |
+| `npm run build` | `next build`. |
 
 ## Architecture
 
@@ -69,7 +68,7 @@ Every row across the scheduling tables carries a `tag` column. Scenarios use sta
 
 ### DB
 
-Uses [pglite](https://pglite.dev) — Postgres compiled to WASM — with [Drizzle](https://orm.drizzle.team) as the ORM. No Docker, no external server. Dev uses a file-backed pglite at `./local-db`; the Vercel deploy uses `/tmp/sched-linx-db` hydrated from a bundled reference DB on cold start.
+Uses [pglite](https://pglite.dev) — Postgres compiled to WASM — with [Drizzle](https://orm.drizzle.team) as the ORM. No Docker, no external server. Dev uses a file-backed pglite at `./local-db`; the Vercel deploy uses an in-memory pglite instance per function, re-hydrated on each cold start.
 
 Schema lives in `src/db/schema.ts`. Migrations are generated with `npm run db:generate` and applied automatically at bootstrap.
 
@@ -92,11 +91,11 @@ Environment variables (set in the Vercel dashboard, not committed):
 | `NEXT_PUBLIC_AGENTIC_READONLY` | On public deploy | Set to `1` to disable `createSetup`, `sendUserMessage`, `updateSetupTitle`, `commitSetup`. Visitors can still view + replay pre-seeded transcripts. Shows a "Fork on GitHub" banner. |
 | `NEXT_PUBLIC_GITHUB_URL` | No | URL the read-only banner points to. Defaults to `https://github.com/imbenham/sched-linx`. |
 
-### Pre-seeded reference DB
+### Pre-seeded transcripts
 
-`npm run build:refdb` creates `./ref-db/` from every `.json` file in `.data/`. Each fixture is a full export of an agentic setup (dialog + committed scenario) — produced by the **Export ↓** button on the `/agentic-onboarding` list page. Commit the JSON files; `ref-db/` is `.gitignore`d (regenerated on every build).
+Each `.data/*.json` file is a full export of an agentic setup (dialog + committed scenario) — produced by the **Export ↓** button on the `/agentic-onboarding` list page. Commit these files; `next.config.mjs` includes `.data/**` (and `drizzle/**`) in the function bundle via `outputFileTracingIncludes` so they're readable at runtime.
 
-`npm run build` chains `build:refdb` before `next build`, and `next.config.mjs` bundles `ref-db/` into the function output via `outputFileTracingIncludes`. On cold start, `src/db/client.ts` copies the bundled dir into `/tmp/sched-linx-db` — visitors land on a DB pre-loaded with the demo transcripts.
+On each Vercel cold start, `src/db/client.ts` spins up an in-memory pglite, applies migrations, then iterates `.data/*.json` and calls `restoreAgenticFixture` per file. Warm requests to the same function instance reuse the in-process DB; recycled instances re-hydrate from scratch. Per-visitor state is cookie-tagged (`v-<uuid>-<base>`), so ephemerality doesn't leak across users.
 
 ## Tests
 

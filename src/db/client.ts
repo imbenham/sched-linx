@@ -4,12 +4,13 @@
 // change in this file (plus the migrator path) and the rest of the
 // codebase is untouched.
 
-import { access, cp } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { PGlite } from '@electric-sql/pglite';
 import { drizzle } from 'drizzle-orm/pglite';
 import { migrate } from 'drizzle-orm/pglite/migrator';
 import * as schema from './schema';
+import { restoreAgenticFixture, type AgenticFixture } from './seed';
 
 export type Database = ReturnType<typeof drizzle<typeof schema>>;
 
@@ -17,7 +18,9 @@ export type Database = ReturnType<typeof drizzle<typeof schema>>;
 // file-backed persistence (dev), or omit for an in-memory instance
 // (tests) — each call to createDatabase() with no arg yields an
 // independent, ephemeral database.
-export async function createDatabase(dataDir?: string): Promise<Database> {
+export async function createDatabase(
+  dataDir?: string | undefined,
+): Promise<Database> {
   const pg = dataDir ? new PGlite(dataDir) : new PGlite();
   await pg.waitReady;
   return drizzle(pg, { schema });
@@ -43,9 +46,14 @@ export function getDatabase(dataDir?: string): Promise<Database> {
   const g = globalThis as GlobalWithDb;
   if (!g.__schedLinxDb) {
     g.__schedLinxDb = (async () => {
-      const dir = dataDir ?? (await resolveDataDir());
-      const db = await createDatabase(dir);
+      const db = await createDatabase(await resolveDataDir(dataDir));
       await applyMigrations(db);
+      // Re-hydrate the demo transcripts on every cold start. Cheap for
+      // a small fixture set; skipped when running dev/test where the
+      // file-backed DB already holds prior state.
+      if (process.env.NODE_ENV === 'production') {
+        await hydrateAgenticFixtures(db);
+      }
       return db;
     })().catch((err) => {
       // Clear the singleton so the next call retries instead of returning
@@ -57,38 +65,41 @@ export function getDatabase(dataDir?: string): Promise<Database> {
   return g.__schedLinxDb;
 }
 
-// Where the singleton lands its data.
+// Storage-mode resolution.
 //
 //   Dev / test: `./local-db` (persists across HMR, easy to inspect).
-//   Prod (Vercel serverless): `/tmp/sched-linx-db`. On cold start we
-//     seed /tmp from the bundled reference DB (built by
-//     `scripts/build-ref-db.ts`, included in the function bundle via
-//     next.config's outputFileTracingIncludes) so visitors land on a
-//     DB pre-loaded with demo transcripts. /tmp is the only writable
-//     path on Vercel and is scoped to a single warm function instance,
-//     so subsequent requests to the same warm instance see mutations —
-//     but they don't survive instance recycling. That's expected: per-
-//     visitor state is tag-scoped via cookies, and demo transcripts
-//     are always available because they get re-hydrated from ref-db
-//     on the next cold start.
-async function resolveDataDir(): Promise<string> {
+//   Prod (Vercel serverless): `undefined` → in-memory pglite.
+//     File-backed pglite on serverless is brittle (WASM binary
+//     resolution, /tmp permissions, cold-start filesystem quirks). An
+//     in-memory instance sidesteps all of that; the tradeoff is a
+//     fresh DB on every cold start, so migrations + fixture restore
+//     run each time. Both are cheap enough (~100ms combined for our
+//     fixture set) that this is the right posture for a demo deploy.
+//     Per-visitor state is cookie-tagged, so the ephemerality doesn't
+//     leak across users.
+async function resolveDataDir(explicit?: string): Promise<string | undefined> {
+  if (explicit) return explicit;
   if (process.env.NODE_ENV !== 'production') return './local-db';
-  const target = '/tmp/sched-linx-db';
-  const exists = await access(target)
-    .then(() => true)
-    .catch(() => false);
-  if (!exists) {
-    const source = path.join(process.cwd(), 'ref-db');
-    // The bundled ref-db might be absent if a build stage omitted it;
-    // pglite will handle a missing target by creating an empty dir,
-    // so we swallow ENOENT here and let migrations run against a
-    // fresh DB instead of hard-failing the request.
-    try {
-      await cp(source, target, { recursive: true });
-    } catch (err) {
-      if ((err as NodeJS.ErrnoException).code !== 'ENOENT') throw err;
-    }
+  return undefined;
+}
+
+// Load every JSON fixture in `.data/` and restore it into `db`. Called
+// once per cold start in production. Silently skips a missing folder
+// (fresh clone without any seeded transcripts).
+async function hydrateAgenticFixtures(db: Database): Promise<void> {
+  const dir = path.join(process.cwd(), '.data');
+  let entries: string[];
+  try {
+    entries = await readdir(dir);
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return;
+    throw err;
   }
-  return target;
+  for (const entry of entries) {
+    if (!entry.endsWith('.json')) continue;
+    const raw = await readFile(path.join(dir, entry), 'utf8');
+    const fixture = JSON.parse(raw) as AgenticFixture;
+    await restoreAgenticFixture(db, fixture);
+  }
 }
 

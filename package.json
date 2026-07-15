@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build:refdb": "tsx scripts/build-ref-db.ts",
-    "build": "npm run build:refdb && next build",
+    "build": "next build",
     "start": "next start",
     "test": "vitest run",
     "test:watch": "vitest",
